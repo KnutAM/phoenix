@@ -2,12 +2,19 @@
 #SBATCH -N 1            # Number of nodes
 #SBATCH -n 1            # Number of processes
 
+# Start a job by calling 
+# `sbatch <sbatch_options> <path/to/run_julia.sh> -s <the_julia_script.jl>`
+# from the folder containing the julia script (i.e. <the_julia_script.jl>)
+# The sbatch options are any options available for the currently used sbatch, and will override settings in this file
+# An example call could be 
+# sbatch -J myjob -n 2 -time 2-00:00:00 $SBATCH_SCRIPTS/run_julia.sh -s runsim.jl
+# Assuming that the environment variable $SBATCH_SCRIPT contains the path to the `sbatch` folder
+# Here, the job name is set to "myjob", the number of processors to 2, and the time limit to 2 days
+
+
 # Get input options
-while getopts ":s:c" opt; do
+while getopts ":s" opt; do
   case $opt in
-    c)
-      change_dir="yes"
-      ;;
     s)
       script=$OPTARG
       ;;
@@ -22,22 +29,11 @@ while getopts ":s:c" opt; do
   esac
 done
 
-# Load python3
-module load foss Python SciPy-bundle
-module load intel 
+# Load julia
+module load software/julia/latest
+
+# Build environment
+julia --project=. --threads $SLURM_NPROCS -e 'using Pkg; Pkg.instantiate()'
 
 # Run analysis
-echo python $script
-
-if [ $change_dir ]; then
-  cp -pr * $TMPDIR
-  cd $TMPDIR
-  rm slurm-*.out # Remove output file to avoid overwriting when copying back
-  python $script
-  echo $?
-  cp -pr $TMPDIR/* $SLURM_SUBMIT_DIR/ # Copy all data
-else
-  python $script
-  echo $?
-fi
-
+julia --project=. --threads $SLURM_NPROCS $script
