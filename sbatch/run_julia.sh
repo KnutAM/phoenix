@@ -4,8 +4,8 @@
 #SBATCH -n 1                  # Number of processes
 
 # Start a job by calling 
-# `sbatch <sbatch_options> <path/to/run_julia.sh> -s <the_julia_script.jl>`
-# from the folder containing the julia script (i.e. <the_julia_script.jl>)
+# `sbatch <sbatch_options> <path/to/run_julia.sh> -s <path/to/julia/script.jl>`
+# from the folder containing the Project.toml
 # The sbatch options are any options available for the currently used sbatch, and will override settings in this file
 # An example call could be 
 # sbatch -J myjob -n 2 -time 2-00:00:00 $SBATCH_SCRIPTS/run_julia.sh -s runsim.jl
