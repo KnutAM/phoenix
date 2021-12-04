@@ -3,12 +3,17 @@ The purpose of this repository is to collect scripts useful for submitting jobs 
 
 ## Installation
 Clone the script directory to your `$HOME` (`~`) folder
-`cd ~`
-`git clone https://github.com/KnutAM/phoenix.git`
+```bash
+cd ~
+git clone https://github.com/KnutAM/phoenix.git
+```
 
 ## TIPS
 ### Default project
 To facilitate running scripts, edit your `~/.bash_profile` to include the line
-`SBATCH_ACCOUNT=<your_default_slurm_project>` 
+```bash
+SBATCH_ACCOUNT=<your_default_slurm_project>
+```
+
 where `<your_default_slurm_project>`. This way, you don't have to specify each time you run a sbatch script. To make effective immediately, run source `~/.bash_profile`.
 
