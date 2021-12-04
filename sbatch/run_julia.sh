@@ -9,7 +9,7 @@
 # The sbatch options are any options available for the currently used sbatch, and will override settings in this file
 # An example call could be 
 # sbatch -J myjob -n 2 -time 2-00:00:00 $SBATCH_SCRIPTS/run_julia.sh -s runsim.jl
-# Assuming that the environment variable $SBATCH_SCRIPT contains the path to the `sbatch` folder
+# Assuming that the environment variable $SBATCH_SCRIPTS contains the path to the `sbatch` folder
 # Here, the job name is set to "myjob", the number of processors to 2, and the time limit to 2 days
 
 
