@@ -9,11 +9,10 @@ git clone https://github.com/KnutAM/phoenix.git
 ```
 
 ## TIPS
-### Default project
+### Add shortcut to sbatch folder
 To facilitate running scripts, edit your `~/.bash_profile` to include the line
 ```bash
-SBATCH_ACCOUNT=<your_default_slurm_project>
+SBATCH_SCRIPTS=$HOME/phoenix/sbatch
 ```
-
-where `<your_default_slurm_project>`. This way, you don't have to specify each time you run a sbatch script. To make effective immediately, run source `~/.bash_profile`.
+to allow convenient access to the sbatch scripts. If you put the phoenix repository in another folder, update the path above accordingly. To make effective immediately, run source `~/.bash_profile`.
 
