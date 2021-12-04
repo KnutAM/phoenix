@@ -1,6 +1,7 @@
 #!/bin/bash
-#SBATCH -N 1            # Number of nodes
-#SBATCH -n 1            # Number of processes
+#SBATCH --partition=standard  # Partition (queue), some alt: shortrun_large, shortrun_small, testing, fat, gpu01queue, gpu02queue, gpu03queue
+#SBATCH -N 1                  # Number of nodes
+#SBATCH -n 1                  # Number of processes
 
 # Start a job by calling 
 # `sbatch <sbatch_options> <path/to/run_julia.sh> -s <the_julia_script.jl>`
