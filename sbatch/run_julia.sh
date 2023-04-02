@@ -35,9 +35,6 @@ if [ -z $script ]; then
     exit 1
 fi
 
-# Load julia
-module load software/julia/latest
-
 # Build environment
 julia --project=. --threads $SLURM_NPROCS -e 'using Pkg; Pkg.instantiate()'
 
