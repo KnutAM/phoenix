@@ -12,12 +12,17 @@
 # Assuming that the environment variable $SBATCH_SCRIPTS contains the path to the `sbatch` folder
 # Here, the job name is set to "myjob", the number of processors to 2, and the time limit to 2 days
 
+# Default values
+memory_percentage=80 # Default value for "m"
 
 # Get input options
-while getopts ":s:" opt; do
+while getopts ":s:m:" opt; do
   case $opt in
-    s)
+    s) # Which script to run
       script=$OPTARG
+      ;;
+    m) # heap-size-hint to m % of maximum memory to prevent out-of-memory cg-failure
+      memory_percentage=$OPTARG
       ;;
     \?)
       echo "Invalid option: -$OPTARG" >&2
@@ -30,13 +35,23 @@ while getopts ":s:" opt; do
   esac
 done
 
-if [ -z $script ]; then
+if [ -z "$script" ]; then
     echo "No script file given, this is mandatory!"
     exit 1
 fi
 
+# Calculate suitable heap size hint
+heap_size_hint=$(($SLURM_MEM_PER_CPU*$SLURM_NPROCS*$memory_percentage/100))
+
+# Julia args
+julia_args="--project=. --threads $SLURM_NPROCS --heap-size-hint=$heap_size_hint"
+echo julia_args: $julia_args
+
 # Build environment
-julia --project=. --threads $SLURM_NPROCS -e 'using Pkg; Pkg.instantiate()'
+julia $julia_args -e 'using Pkg; Pkg.instantiate()'
+
+# Display versioninfo (for reference)
+julia $julia_args -e 'using InteractiveUtils; versioninfo()'
 
 # Run analysis
-julia --project=. --threads $SLURM_NPROCS $script
+julia $julia_args $script
