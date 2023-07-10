@@ -43,6 +43,10 @@ fi
 # Calculate suitable heap size hint
 heap_size_hint=$(($SLURM_MEM_PER_CPU*$SLURM_NPROCS*$memory_percentage/100))
 
+# Start time
+starttime=$(date +%s)
+echo "Start time: $(date)"
+
 # Julia args
 julia_args="--project=. --threads $SLURM_NPROCS --heap-size-hint=$heap_size_hint"
 echo julia_args: $julia_args
@@ -55,3 +59,8 @@ julia $julia_args -e 'using InteractiveUtils; versioninfo()'
 
 # Run analysis
 julia $julia_args $script
+
+# End time
+endtime=$(date +%s)
+echo "Running time: $((($endtime-$starttime)/60)) min"
+echo "End time: $(date)"
